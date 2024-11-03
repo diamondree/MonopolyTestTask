@@ -1,4 +1,5 @@
 ﻿using MonopolyTestTask.Interfaces;
+using MonopolyTestTask.Models;
 
 namespace MonopolyTestTask.Utils
 {
@@ -56,5 +57,25 @@ namespace MonopolyTestTask.Utils
             return expirationDate;
         }
 
+        public static SortedDictionary<DateTime, List<WarehousePallete>> GroupPalletesByDate(IEnumerable<WarehousePallete> palletes)
+        {
+            var groupedPalletes = new SortedDictionary<DateTime, List<WarehousePallete>>();
+
+            foreach (var pallete in palletes)
+            {
+                if (!groupedPalletes.ContainsKey(pallete.ExpiredDate))
+                    groupedPalletes.Add(pallete.ExpiredDate, new List<WarehousePallete>());
+
+                groupedPalletes[pallete.ExpiredDate].Add(pallete);
+            }
+
+            return groupedPalletes;
+        }
+
+        public static void SortPalleteInGroupsByWeight(IDictionary<DateTime, List<WarehousePallete>> groups)
+        {
+            foreach (var group in groups.Values)
+                group.Sort(new PalleteWeightComparer());
+        }
     }
 }
