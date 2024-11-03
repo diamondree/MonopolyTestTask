@@ -22,6 +22,7 @@ namespace MonopolyTestTask.Models
             Weight = PalleteUtils.GetItemsTotalWeight(enclosedItems) + _palleteWeight;
             Volume = PalleteUtils.GetItemsTotalVolume(enclosedItems) + WarehouseItemUtils.GetVolume(width,height,depth);
             ExpiredDate = PalleteUtils.GetPalleteExpirationDate(enclosedItems);
+            EnclosedItems = enclosedItems;
         }
 
         public Guid Id { get;}
@@ -31,5 +32,6 @@ namespace MonopolyTestTask.Models
         public double Weight { get; }
         public double Volume { get; }
         public DateTime ExpiredDate { get; }
+        public IEnumerable<IWarehouseItem> EnclosedItems { get; }
     }
 }

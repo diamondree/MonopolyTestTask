@@ -77,5 +77,60 @@ namespace MonopolyTestTask.Utils
             foreach (var group in groups.Values)
                 group.Sort(new PalleteWeightComparer());
         }
+
+        public static List<WarehousePallete> GetThreePalletesWithLongLiveBoxes(List<WarehousePallete> palletes)
+        {
+            var result = new List<WarehousePallete>();
+            if (palletes.Count > 0)
+            {
+                result.Add(palletes[0]);
+                var minExpDate = new KeyValuePair<DateTime, WarehousePallete>(GetMaxExpiredDateInPallete(palletes[0]), palletes[0]);
+
+                for (int i = 1; i < palletes.Count; i++)
+                {
+                    if (i < 3)
+                    {
+                        result.Add(palletes[i]);
+                        DateTime maxDateInPallete = GetMaxExpiredDateInPallete(palletes[i]);
+                        if (minExpDate.Key > maxDateInPallete)
+                        {
+                            minExpDate = new KeyValuePair<DateTime, WarehousePallete>(maxDateInPallete, palletes[i]);
+                        }
+                    }
+                    else
+                    {
+                        DateTime maxDateInPallete = GetMaxExpiredDateInPallete(palletes[i]);
+                        if (minExpDate.Key < maxDateInPallete)
+                        {
+                            result.Remove(minExpDate.Value);
+                            result.Add(palletes[i]);
+
+                            minExpDate = GetMinExpDateInList(result);
+                        }
+                    }
+                }
+            }
+
+            result.Sort(new PalleteVolumeComparer());
+            return result;
+        }
+
+        private static DateTime GetMaxExpiredDateInPallete(WarehousePallete pallete)
+            => pallete.EnclosedItems.Max(item => item.ExpiredDate);
+
+        private static KeyValuePair<DateTime, WarehousePallete> GetMinExpDateInList(List<WarehousePallete> list)
+        {
+            var min = new KeyValuePair<DateTime, WarehousePallete>(GetMaxExpiredDateInPallete(list[0]), list[0]);
+
+            for (int i = 1; i < list.Count; i++)
+            {
+                DateTime maxDateInPallete = GetMaxExpiredDateInPallete(list[i]);
+
+                if (min.Key > maxDateInPallete)
+                    min = new KeyValuePair<DateTime, WarehousePallete>(maxDateInPallete, list[i]);
+            }
+
+            return min;
+        }
     }
 }

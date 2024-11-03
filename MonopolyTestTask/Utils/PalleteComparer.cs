@@ -9,4 +9,12 @@ namespace MonopolyTestTask.Utils
             return x.Weight.CompareTo(y.Weight);
         }
     }
+
+    public class PalleteVolumeComparer : IComparer<WarehousePallete>
+    {
+        public int Compare(WarehousePallete? x, WarehousePallete? y)
+        {
+            return x.Volume.CompareTo(y.Volume);
+        }
+    }
 }
