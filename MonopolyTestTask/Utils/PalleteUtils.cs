@@ -115,10 +115,10 @@ namespace MonopolyTestTask.Utils
             return result;
         }
 
-        private static DateTime GetMaxExpiredDateInPallete(WarehousePallete pallete)
+        public static DateTime GetMaxExpiredDateInPallete(WarehousePallete pallete)
             => pallete.EnclosedItems.Max(item => item.ExpiredDate);
 
-        private static KeyValuePair<DateTime, WarehousePallete> GetMinExpDateInList(List<WarehousePallete> list)
+        public static KeyValuePair<DateTime, WarehousePallete> GetMinExpDateInList(List<WarehousePallete> list)
         {
             var min = new KeyValuePair<DateTime, WarehousePallete>(GetMaxExpiredDateInPallete(list[0]), list[0]);
 

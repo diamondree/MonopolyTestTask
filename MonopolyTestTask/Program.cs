@@ -1,5 +1,6 @@
 ﻿using MonopolyTestTask.Models;
 using MonopolyTestTask.Utils;
+using Newtonsoft.Json;
 
 namespace MonopolyTestTask
 {
@@ -7,6 +8,7 @@ namespace MonopolyTestTask
     {
         static void Main(string[] args)
         {
+            
             var boxesCombo1 = new[] 
             {
                 new WarehouseBox(10, 20, 30, 40, new DateTime(2024, 11, 20)),
@@ -49,6 +51,8 @@ namespace MonopolyTestTask
             {
                 Console.WriteLine(ex.Message);
             }
+
+            File.WriteAllText("aboba.txt", JsonConvert.SerializeObject(palletes, Formatting.Indented));
 
             SortedDictionary<DateTime, List<WarehousePallete>> grouppedPalletes = PalleteUtils.GroupPalletesByDate(palletes);
             PalleteUtils.SortPalleteInGroupsByWeight(grouppedPalletes);
