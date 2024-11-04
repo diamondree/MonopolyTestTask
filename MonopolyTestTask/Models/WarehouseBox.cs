@@ -6,7 +6,8 @@ namespace MonopolyTestTask.Models
     public class WarehouseBox : IWarehouseItem
     {
         private const int _boxLifetimeDays = 100;
-
+        private const string _toStringOffset = "    ";
+        
         public WarehouseBox(
             double width,
             double height,
@@ -41,5 +42,13 @@ namespace MonopolyTestTask.Models
         public double Weight { get; }
         public double Volume { get; }
         public DateTime ExpiredDate { get; }
+
+        public override string ToString()
+        {
+            return $"{_toStringOffset}Box params with id: {Id}\n" +
+                   $"{_toStringOffset}--Width: {Width}, height: {Height}, depth: {Depth}\n" +
+                   $"{_toStringOffset}--Expired date: {ExpiredDate.ToShortDateString()}\n" +
+                   $"{_toStringOffset}--Volume: {Volume}\n";
+        }
     }
 }

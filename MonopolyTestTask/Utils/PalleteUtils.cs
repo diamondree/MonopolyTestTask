@@ -111,9 +111,11 @@ namespace MonopolyTestTask.Utils
                 }
             }
 
-            result.Sort(new PalleteVolumeComparer());
             return result;
         }
+
+        public static void SortPalletesByVolume(List<WarehousePallete> palletes)
+            => palletes.Sort(new PalleteVolumeComparer());
 
         public static DateTime GetMaxExpiredDateInPallete(WarehousePallete pallete)
             => pallete.EnclosedItems.Max(item => item.ExpiredDate);

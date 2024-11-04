@@ -1,11 +1,12 @@
 ﻿using MonopolyTestTask.Models;
 using MonopolyTestTask.Utils;
-using Newtonsoft.Json;
 
 namespace MonopolyTestTask
 {
     internal class Program
     {
+        private const string _separator = "------------------------------------------------";
+
         static void Main(string[] args)
         {
             
@@ -50,18 +51,37 @@ namespace MonopolyTestTask
             catch (ArgumentOutOfRangeException ex)
             {
                 Console.WriteLine(ex.Message);
+                Environment.Exit(-1);
             }
-
-            File.WriteAllText("aboba.txt", JsonConvert.SerializeObject(palletes, Formatting.Indented));
 
             SortedDictionary<DateTime, List<WarehousePallete>> grouppedPalletes = PalleteUtils.GroupPalletesByDate(palletes);
             PalleteUtils.SortPalleteInGroupsByWeight(grouppedPalletes);
+            PrintSortedPalletes(grouppedPalletes);
+
+            for (int i = 0; i < 3; i++)
+                Console.WriteLine(_separator);
 
             List<WarehousePallete> threePalletes = PalleteUtils.GetThreePalletesWithLongLiveBoxes(palletes);
+            PalleteUtils.SortPalletesByVolume(threePalletes);
+            PrintPalletesList(threePalletes);
+        }
 
-            Console.WriteLine();
-            Console.WriteLine("Press anything");
-            Console.ReadKey();
+        private static void PrintSortedPalletes(SortedDictionary<DateTime,List<WarehousePallete>> grouppedPalletes)
+        {
+            for (int i = 0; i < grouppedPalletes.Count; i++)
+            {
+                Console.WriteLine($"Group number: {i + 1}. Expired date for group: {grouppedPalletes.ElementAt(i).Key.ToShortDateString()}");
+                foreach (var pallete in grouppedPalletes.ElementAt(i).Value)
+                    Console.WriteLine(pallete.ToString());
+
+                Console.WriteLine(_separator);
+            }
+        }
+
+        private static void PrintPalletesList(List<WarehousePallete> palletes) 
+        {
+            foreach (var pallete in palletes)
+                Console.WriteLine(pallete.ToString());
         }
     }
 }

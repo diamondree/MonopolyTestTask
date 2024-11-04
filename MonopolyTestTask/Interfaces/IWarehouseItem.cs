@@ -9,5 +9,7 @@
         public double Weight { get; }
         public double Volume { get; }
         public DateTime ExpiredDate { get; }
+
+        public string ToString();
     }
 }

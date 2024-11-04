@@ -1,5 +1,6 @@
 ﻿using MonopolyTestTask.Interfaces;
 using MonopolyTestTask.Utils;
+using System.Text;
 
 namespace MonopolyTestTask.Models
 {
@@ -33,5 +34,19 @@ namespace MonopolyTestTask.Models
         public double Volume { get; }
         public DateTime ExpiredDate { get; }
         public IEnumerable<IWarehouseItem> EnclosedItems { get; }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.Append($"Pallete params with id: {Id}\n" +
+                      $"--Width: {Width}, height: {Height}, depth: {Depth}\n" +
+                      $"--Expired date: {ExpiredDate.ToShortDateString()}\n" +
+                      $"--Volume: {Volume}; Enclosed items count: {EnclosedItems.Count()}\n");
+
+            foreach (var item in EnclosedItems)
+                sb.Append(item.ToString());
+
+            return sb.ToString();
+        }
     }
 }
