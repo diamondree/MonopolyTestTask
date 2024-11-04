@@ -3,11 +3,22 @@ using MonopolyTestTask.Utils;
 
 namespace MonopolyTestTask.Models
 {
+    /// <summary>
+    /// Сущность склада - коробка
+    /// </summary>
     public class WarehouseBox : IWarehouseItem
     {
         private const int _boxLifetimeDays = 100;
-        private const string _toStringOffset = "    ";
+        private const string _toStringOffset = "        ";
         
+        /// <summary>
+        /// Конструктор класса коробки
+        /// </summary>
+        /// <param name="width">Ширина</param>
+        /// <param name="height">Высота</param>
+        /// <param name="depth">Глубина</param>
+        /// <param name="weight">Вес</param>
+        /// <param name="expirationDate">Срок годности</param>
         public WarehouseBox(
             double width,
             double height,
@@ -24,6 +35,16 @@ namespace MonopolyTestTask.Models
             ExpiredDate = expirationDate;
         }
 
+        /// <summary>
+        /// Конструктор для указания даты производства коробки. 
+        /// Срок годности вычисляется (дата производства +100 дней)
+        /// </summary>
+        /// <param name="width">Ширина</param>
+        /// <param name="height">Высота</param>
+        /// <param name="depth">Глубина</param>
+        /// <param name="weight">Вес</param>
+        /// <param name="manufacturedDate">Дата производства</param>
+        /// <param name="isManufactureDate">Флаг, указывающий что передается дата производства</param>
         public WarehouseBox(
             double width,
             double height,

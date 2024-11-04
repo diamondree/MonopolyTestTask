@@ -4,10 +4,24 @@ using System.Text;
 
 namespace MonopolyTestTask.Models
 {
+    /// <summary>
+    /// Класс склада - паллета
+    /// </summary>
     public class WarehousePallete : IWarehouseItem
     {
         private const int _palleteWeight = 30;
+        private const string _toStringOffset = "    ";
 
+        /// <summary>
+        /// Создание нового экземпляра паллеты.
+        /// Может быть создано исключение ArgumentOutOfRangeException,
+        /// если ширина/глубина вложенного предмета больше соответствующего
+        /// параметра у паллеты
+        /// </summary>
+        /// <param name="width">Ширина</param>
+        /// <param name="height">Высота</param>
+        /// <param name="depth">Глубина</param>
+        /// <param name="enclosedItems">Вложенные предметы</param>
         public WarehousePallete(
             double width,
             double height,
@@ -20,8 +34,8 @@ namespace MonopolyTestTask.Models
             Width = width;
             Height = height;
             Depth = depth;
-            Weight = PalleteUtils.GetItemsTotalWeight(enclosedItems) + _palleteWeight;
-            Volume = PalleteUtils.GetItemsTotalVolume(enclosedItems) + WarehouseItemUtils.GetVolume(width,height,depth);
+            Weight = WarehouseItemUtils.GetItemsTotalWeight(enclosedItems) + _palleteWeight;
+            Volume = WarehouseItemUtils.GetItemsTotalVolume(enclosedItems) + WarehouseItemUtils.GetVolume(width,height,depth);
             ExpiredDate = PalleteUtils.GetPalleteExpirationDate(enclosedItems);
             EnclosedItems = enclosedItems;
         }
@@ -38,10 +52,10 @@ namespace MonopolyTestTask.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append($"Pallete params with id: {Id}\n" +
-                      $"--Width: {Width}, height: {Height}, depth: {Depth}\n" +
-                      $"--Expired date: {ExpiredDate.ToShortDateString()}\n" +
-                      $"--Volume: {Volume}; Enclosed items count: {EnclosedItems.Count()}\n");
+            sb.Append($"{_toStringOffset}Pallete params with id: {Id}\n" +
+                      $"{_toStringOffset}--Width: {Width}, height: {Height}, depth: {Depth}\n" +
+                      $"{_toStringOffset}--Expired date: {ExpiredDate.ToShortDateString()}\n" +
+                      $"{_toStringOffset}--Volume: {Volume}; Enclosed items count: {EnclosedItems.Count()}\n");
 
             foreach (var item in EnclosedItems)
                 sb.Append(item.ToString());

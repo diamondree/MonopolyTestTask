@@ -2,6 +2,9 @@
 
 namespace MonopolyTestTask.Utils
 {
+    /// <summary>
+    /// Класс для сравнения паллет по весу
+    /// </summary>
     public class PalleteWeightComparer : IComparer<WarehousePallete>
     {
         public int Compare(WarehousePallete? x, WarehousePallete? y)
@@ -10,6 +13,9 @@ namespace MonopolyTestTask.Utils
         }
     }
 
+    /// <summary>
+    /// Класс для сравнения паллет по объему
+    /// </summary>
     public class PalleteVolumeComparer : IComparer<WarehousePallete>
     {
         public int Compare(WarehousePallete? x, WarehousePallete? y)
